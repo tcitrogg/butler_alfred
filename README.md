@@ -6,3 +6,19 @@ Your friendly butler virtual assistant 👨‍💼
 - Can search youtube for music
 
 Link: https://t.me/b_alfredbot
+
+1. Clone this repo
+-  Change directory to the repo just cloned
+```sh
+cd butler_alfred
+```
+
+-  Store your `token` as an environment variable
+```sh
+echo "<YOUR-TELEGRAM-BOT-TOKEN>" >> .env
+```
+
+-  Install dependencies
+```sh
+pipenv install
+```
