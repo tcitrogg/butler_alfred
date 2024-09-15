@@ -7,14 +7,15 @@ from telebot import types
 from telebot.util import quick_markup
 import speech_recognition as sr
 from ytmusicapi import YTMusic
+from dotenv import load_dotenv
 # from pyfiglet import Figlet
 
 # Init
+load_dotenv()
 BOT = {
     "username": "b_alfredbot",
     "name": "Butler Alfred",
-    "token": "7535662951:AAGCeOWpeXHF95C6Wi7ZKwILpSpk7FDQc_Q",
-    # "token": os.getenv("TOKEN"),
+    "token": os.getenv("TOKEN"),
     "architect": {
         "name": "tcitrogg",
         "link": "https://linktr.ee/tcitrogg"

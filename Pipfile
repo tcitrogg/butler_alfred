@@ -8,6 +8,7 @@ ytmusicapi = "*"
 speechrecognition = "*"
 duckduckgo-search = "*"
 ffmpeg-python = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
