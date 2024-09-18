@@ -5,6 +5,13 @@ Your friendly butler virtual assistant 👨‍💼
 - Can search the internet
 - Can search youtube for music
 
+Commands
+- start
+- help
+- search
+- ytsearch
+- contact
+
 Link: https://t.me/b_alfredbot
 
 1. Clone this repo

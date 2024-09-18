@@ -9,6 +9,9 @@ speechrecognition = "*"
 duckduckgo-search = "*"
 ffmpeg-python = "*"
 python-dotenv = "*"
+pyttsx4 = "*"
+pyaudio = "*"
+gtts = "*"
 
 [dev-packages]
 

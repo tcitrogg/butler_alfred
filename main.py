@@ -1,10 +1,11 @@
 import telebot
 import os
 import ffmpeg
+from gtts import gTTS
 from duckduckgo_search import DDGS
 from datetime import datetime
 from telebot import types
-from telebot.util import quick_markup
+# from telebot.util import quick_markup
 import speech_recognition as sr
 from ytmusicapi import YTMusic
 from dotenv import load_dotenv
@@ -24,6 +25,7 @@ BOT = {
 bot = telebot.TeleBot(BOT["token"], parse_mode="Markdown")
 r = sr.Recognizer()
 ytmusic = YTMusic()
+# speech_eng = pyttsx4.init()
 # f = Figlet(font="graffiti")
 AUDIOPATH = "audio"
 
@@ -48,11 +50,23 @@ def audio_to_text(audiopath: str) -> str:
         text = r.recognize_google(audio_listened)
     return text
 
+# # Text to speech
+# def say_text(text: str):
+#     speech_eng.say(text)
+#     speech_eng.runAndWait()
+
+
+# # Text to audio file
+# def text_to_audiofile(text) -> str:
+#     speech_eng.save_to_file(text)
+#     speech_eng.runAndWait
+
 
 # Welcome
 @bot.message_handler(commands=["start", "help"])
 def send_welcome(message):
     bot.reply_to(message, chat("How are you!"))
+
 
 # Handle voice notes
 # Download vn, translate to text, send response
@@ -70,12 +84,33 @@ def voice_processing(message):
     os.remove(filename) # Delete ogg audio
     os.remove(wav_audio) # Delete wav audio
 
+
+# Sending audio: send text or file
+@bot.message_handler(commands=["audio"])
+def audio_command(message):
+    text = "paraphrase: send me the text you would like to convert to audio: "
+    bot.send_message(message.chat.id, chat(text), parse_mode="Markdown")
+    bot.register_next_step_handler(message, handle_audio)
+
+def handle_audio(message, lang="en", audiotype="mp3"):
+    text = message.text
+    text_summary = chat(f"summarise '{text}' in one sentence")
+    speech_audio = gTTS(text, lang="en")
+    timestamp = str(datetime.now().timestamp()).replace(".", "_")
+    filename = f"{AUDIOPATH}/from-{BOT['name']}-to-{message.from_user.username}-{timestamp}.{audiotype}"
+    speech_audio.save(filename) # Saving the audio file
+    text_summary_prefix = chat("paraphrase: Your audio about: ")
+    bot.send_audio(message.chat.id, audio=speech_audio, caption=f"{text_summary_prefix}\n{text_summary}")
+    os.remove(filename) # Delete the audio
+    # return filename
+
 # Loading message
 @bot.message_handler(commands=["load"])
 def loading_message(message):
     text = "Loading..."
     loading_text = bot.send_message(message.chat.id, text, parse_mode="Markdown")
     bot.edit_message_text("Yeah edited the loading message", loading_text.chat.id, loading_text.message_id, parse_mode="Markdown")
+
 
 # Search the internet
 @bot.message_handler(commands=["search"])
@@ -95,6 +130,7 @@ def search(message, max_results=5):
 _Link:_ {each_result['href']}
 """
     bot.send_message(message.chat.id, formatted_result, parse_mode="Markdown")
+
 
 # YouTube search
 @bot.message_handler(commands=["ytsearch"])
