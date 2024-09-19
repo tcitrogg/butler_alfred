@@ -1,4 +1,4 @@
-# butler_alfred
+# Butler Alfred
 Your friendly butler virtual assistant 👨‍💼
 - Uses AI model to interact
 - Can translate audio to text
@@ -10,6 +10,7 @@ Commands
 - help
 - search
 - ytsearch
+- audio
 - contact
 
 Link: https://t.me/b_alfredbot
@@ -20,9 +21,9 @@ Link: https://t.me/b_alfredbot
 cd butler_alfred
 ```
 
--  Store your `token` as an environment variable
+-  Store your `token` from Telegram's **Bot Father** as an environment variable
 ```sh
-echo "<YOUR-TELEGRAM-BOT-TOKEN>" >> .env
+echo "Token = \"<YOUR-TELEGRAM-BOT-TOKEN>\"" >> .env
 ```
 
 -  Install dependencies

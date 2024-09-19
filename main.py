@@ -100,9 +100,21 @@ def handle_audio(message, lang="en", audiotype="mp3"):
     filename = f"{AUDIOPATH}/from-{BOT['name']}-to-{message.from_user.username}-{timestamp}.{audiotype}"
     speech_audio.save(filename) # Saving the audio file
     text_summary_prefix = chat("paraphrase: Your audio about: ")
-    bot.send_audio(message.chat.id, audio=speech_audio, caption=f"{text_summary_prefix}\n{text_summary}")
+    doc_caption = f"{text_summary_prefix}\n{text_summary}"
+    print(f"(+) Sending audio | {doc_caption}")
+    bot.send_document(message.chat.id, document=open(filename, 'rb'), caption=doc_caption)
     os.remove(filename) # Delete the audio
     # return filename
+    # bot.register_next_step_handler(message, handle_sending_audio, filename)
+
+# def handle_sending_audio(message, filename):
+#     # bot.send_document(message.chat.id, document=filename)
+#     print("Sending audio...")
+#     
+#     bot.send_document(message.chat.id, document=open(filename, 'rb'))
+#     os.remove(filename) # Delete the audio
+#     # return filename
+
 
 # Loading message
 @bot.message_handler(commands=["load"])
@@ -136,12 +148,11 @@ _Link:_ {each_result['href']}
 @bot.message_handler(commands=["ytsearch"])
 def ytsearch_command(message):
     text = chat("paraphrase: what would you like to search for: Video or Music?")
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=True)
     markup.row('Video', 'Music')
     markup.row('Cancel')
     bot.send_message(message.chat.id, text, reply_markup=markup)
-    markup = types.ReplyKeyboardRemove()
-    types.ReplyKeyboardRemove()
+    # types.ReplyKeyboardRemove()
     # bot.send_message(message.chat.id, chat(text), parse_mode="Markdown")
     if message.text == "Cancel":
         send_welcome()

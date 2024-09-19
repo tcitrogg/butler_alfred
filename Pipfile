@@ -12,6 +12,7 @@ python-dotenv = "*"
 pyttsx4 = "*"
 pyaudio = "*"
 gtts = "*"
+pytelegrambotapi = "*"
 
 [dev-packages]
 
